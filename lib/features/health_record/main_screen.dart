@@ -17,8 +17,6 @@ class _HRMSMainScreenState extends State<HRMSMainScreen> {
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
-            // backgroundColor: AppColors().mainColor(),
-            // inactiveColor: Colors.grey,
             border:
                 const Border(top: BorderSide(width: 1.0, color: Colors.grey)),
             activeColor: AppColors().mainColor(),

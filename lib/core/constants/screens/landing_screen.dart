@@ -3,8 +3,14 @@ import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/core/theme/app_icon.dart';
 import 'package:hrms_frontend/widgets/text/app_text.dart';
 
-class Landing extends StatelessWidget {
-  Landing({super.key});
+class Landing extends StatefulWidget {
+  const Landing({super.key});
+
+  @override
+  State<Landing> createState() => _LandingState();
+}
+
+class _LandingState extends State<Landing> {
   final AppColors ac = AppColors();
 
   @override
@@ -45,7 +51,7 @@ class Landing extends StatelessWidget {
                         width: 270.0,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/auth/signup');
+                            Navigator.popAndPushNamed(context, '/auth/signup');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ac.mainColor(),
@@ -71,7 +77,7 @@ class Landing extends StatelessWidget {
                         width: 270.0,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/auth/login');
+                            Navigator.popAndPushNamed(context, '/auth/login');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ac.mainColor(),
