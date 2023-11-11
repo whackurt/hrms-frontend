@@ -5,7 +5,9 @@ class HRMSRoundedButton extends StatefulWidget {
   final String? text;
   final Function()? action;
   final bool? fullWidth;
-  const HRMSRoundedButton({super.key, this.text, this.action, this.fullWidth});
+  final Widget? child;
+  const HRMSRoundedButton(
+      {super.key, this.text, this.action, this.fullWidth, this.child});
 
   @override
   State<HRMSRoundedButton> createState() => _HRMSRoundedButtonState();
@@ -27,12 +29,7 @@ class _HRMSRoundedButtonState extends State<HRMSRoundedButton> {
                 BorderRadius.circular(30.0), // Adjust border radius as needed
           ),
         ),
-        child: Text(
-          '${widget.text}',
-          style: const TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.w700), // Adjust text style as needed
-        ),
+        child: widget.child,
       ),
     );
   }
