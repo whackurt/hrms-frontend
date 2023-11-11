@@ -21,7 +21,6 @@ TextEditingController passwordController = TextEditingController();
 
 class _LoginScreenState extends State<LoginScreen> {
   AppColors ac = AppColors();
-
   final AuthenticationService auth = AuthenticationService();
   final _loginKey = GlobalKey<FormState>();
 
@@ -112,20 +111,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                     healthWorkerId: hwidController.text.trim(),
                                     name: '',
                                     password: passwordController.text.trim()))
-                                .then((response) {
-                              if (response['success']) {
+                                .then((res) {
+                              if (res['success']) {
                                 setState(() {
-                                  data = response['data'];
+                                  data = res['data'];
                                   loading = false;
                                 });
 
                                 prefs.setString('userId', data['userId']);
+                                prefs.setString('userName', data['userName']);
                                 prefs.setString('token', data['token']);
+
+                                hwidController.clear();
+                                passwordController.clear();
 
                                 Navigator.popAndPushNamed(context, '/');
                               } else {
                                 setState(() {
-                                  statusMsg = response['data']['message'];
+                                  statusMsg = res['data']['message'];
                                   loading = false;
                                 });
                               }

@@ -24,6 +24,21 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
 
   bool loading = false;
 
+  String? userName;
+
+  void getHWName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('userName');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getHWName();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +53,7 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20.0),
-              Text('Hello, Mars Malo!', style: headingTextStyle()),
+              Text('Hello, $userName!', style: headingTextStyle()),
               Text(
                 'Welcome to Health Records Management System',
                 style: TextStyle(fontSize: 15.0, color: Colors.grey[700]),
@@ -155,8 +170,8 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
                                 setState(() {
                                   loading = true;
                                 });
-                                pref.remove('token');
-                                pref.remove('userId');
+                                pref.clear();
+
                                 // ignore: use_build_context_synchronously
                                 Navigator.of(context, rootNavigator: true)
                                     .pushAndRemoveUntil(
