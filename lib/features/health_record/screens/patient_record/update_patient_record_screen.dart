@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/core/theme/text_styles.dart';
-import 'package:hrms_frontend/features/health_record/screens/add_record/add_record_screen.dart';
 import 'package:hrms_frontend/features/health_record/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/features/health_record/widgets/text_field/text_field.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
@@ -17,7 +16,6 @@ class HRMSUpdatePatientScreen extends StatefulWidget {
       _HRMSUpdatePatientScreenState();
 }
 
-String selectedZone = zones.first;
 DateTime? birthDate;
 
 class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
@@ -31,6 +29,7 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
   @override
   Widget build(BuildContext context) {
     var patientData = ModalRoute.of(context)!.settings.arguments as Map;
+    List zones = [];
 
     lastNameController.text = patientData['lastName'];
     firstNameController.text = patientData['firstName'];
@@ -38,6 +37,7 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
     brgyController.text = patientData['brgy'];
     cityController.text = patientData['city_municipality'];
     provinceController.text = patientData['province'];
+    String selectedZone = zones.first;
     selectedZone = zones[patientData['zone'] - 1];
     birthDate = DateTime.parse(patientData['birthDate']);
 
