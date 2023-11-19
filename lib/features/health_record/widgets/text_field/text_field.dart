@@ -5,9 +5,17 @@ class HRMSTextField extends StatefulWidget {
   final String? hintText;
   final ValueChanged<String>? onChanged;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
 
   const HRMSTextField(
-      {super.key, this.onChanged, this.label, this.hintText, this.controller});
+      {super.key,
+      this.onChanged,
+      this.onSaved,
+      this.label,
+      this.hintText,
+      this.controller,
+      this.validator});
 
   @override
   State<HRMSTextField> createState() => _HRMSTextFieldState();
@@ -42,7 +50,10 @@ class _HRMSTextFieldState extends State<HRMSTextField> {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
                 hintText: '${widget.hintText}',
                 border: InputBorder.none),
-            maxLines: 2,
+            maxLines: 1,
+            validator: widget.validator,
+            onSaved: widget.onSaved,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
         ),
         const SizedBox(
