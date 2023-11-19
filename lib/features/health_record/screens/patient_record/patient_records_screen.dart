@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hrms_frontend/features/health_record/widgets/content_wrapper.dart';
-import 'package:hrms_frontend/features/health_record/widgets/cards/zone_card.dart';
+import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
+import 'package:hrms_frontend/features/health_record/screens/widgets/cards/zone_card.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 
 class HRMSPatientRecordsScreen extends StatefulWidget {

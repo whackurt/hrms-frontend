@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/core/theme/text_styles.dart';
-import 'package:hrms_frontend/features/health_record/widgets/content_wrapper.dart';
-import 'package:hrms_frontend/features/health_record/widgets/cards/patient_list_card.dart';
+import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
+import 'package:hrms_frontend/features/health_record/screens/widgets/cards/patient_list_card.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 
 class HRMSPatientListScreen extends StatefulWidget {

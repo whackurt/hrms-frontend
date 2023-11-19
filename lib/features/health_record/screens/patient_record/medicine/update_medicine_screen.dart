@@ -2,8 +2,8 @@ import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/core/theme/text_styles.dart';
-import 'package:hrms_frontend/features/health_record/widgets/content_wrapper.dart';
-import 'package:hrms_frontend/features/health_record/widgets/text_field/text_field.dart';
+import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
+import 'package:hrms_frontend/features/health_record/screens/widgets/text_field/text_field.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
 
