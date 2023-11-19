@@ -23,7 +23,7 @@ TextEditingController hwidController = TextEditingController();
 
 class _SignUpScreenState extends State<SignUpScreen> {
   AppColors ac = AppColors();
-  final AuthenticationService auth = AuthenticationService();
+  final AuthController auth = AuthController();
   final _signupKey = GlobalKey<FormState>();
 
   Map<String, dynamic> data = {};
