@@ -1,9 +1,9 @@
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
-import 'package:hrms_frontend/features/health_record/widgets/cards/medicine_card.dart';
-import 'package:hrms_frontend/features/health_record/widgets/content_wrapper.dart';
-import 'package:hrms_frontend/features/health_record/widgets/text_field/text_field.dart';
+import 'package:hrms_frontend/features/health_record/screens/widgets/cards/medicine_card.dart';
+import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
+import 'package:hrms_frontend/features/health_record/screens/widgets/text_field/text_field.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 
 class HRMSViewMedicines extends StatefulWidget {
