@@ -21,7 +21,7 @@ TextEditingController passwordController = TextEditingController();
 
 class _LoginScreenState extends State<LoginScreen> {
   AppColors ac = AppColors();
-  final AuthenticationService auth = AuthenticationService();
+  final AuthController auth = AuthController();
   final _loginKey = GlobalKey<FormState>();
 
   Map<String, dynamic> data = {};

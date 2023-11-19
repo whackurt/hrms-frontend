@@ -3,7 +3,7 @@ import 'package:hrms_frontend/config/api.dart';
 import 'package:hrms_frontend/features/auth/models/healthWorker.model.dart';
 import 'package:http/http.dart' as http;
 
-class AuthenticationService {
+class AuthController {
   Api api = Api();
 
   Future login(HealthWorker healthWorker) async {
