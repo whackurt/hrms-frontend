@@ -30,7 +30,7 @@ TextStyle descriptionTextStyle() {
 
 TextStyle dashboardNumbers() {
   return TextStyle(
-      fontSize: 30.0,
+      fontSize: 25.0,
       color: AppColors().mainColor(),
       fontWeight: FontWeight.w700);
 }
