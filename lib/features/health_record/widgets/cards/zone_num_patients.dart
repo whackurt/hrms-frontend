@@ -4,9 +4,7 @@ import 'package:hrms_frontend/core/theme/text_styles.dart';
 class HRMSPatientPerZoneCard extends StatefulWidget {
   final int? numPatients;
   final int? zoneNum;
-  final String? zoneName;
-  const HRMSPatientPerZoneCard(
-      {super.key, this.numPatients, this.zoneName, this.zoneNum});
+  const HRMSPatientPerZoneCard({super.key, this.numPatients, this.zoneNum});
 
   @override
   State<HRMSPatientPerZoneCard> createState() => _HRMSPatientPerZoneCardState();
@@ -24,21 +22,13 @@ class _HRMSPatientPerZoneCardState extends State<HRMSPatientPerZoneCard> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8.0),
-          // boxShadow: const [
-          //   BoxShadow(
-          //     color: Colors.grey, // Shadow color
-          //     blurRadius: 5, // Spread of the shadow
-          //     offset: Offset(0, 3), // Offset in the X and Y direction
-          //   ),
-          // ]
-          // border: Border.all(width: 1.0, color: Colors.grey)
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Zone ${widget.zoneNum} - ${widget.zoneName}'.toUpperCase(),
+              'Zone ${widget.zoneNum}'.toUpperCase(),
               style: descriptionTextStyle(),
             ),
             const SizedBox(height: 5.0),

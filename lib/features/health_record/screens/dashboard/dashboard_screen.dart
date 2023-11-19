@@ -4,6 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hrms_frontend/core/theme/text_styles.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/features/auth/screens/login_screen.dart';
+import 'package:hrms_frontend/features/health_record/controllers/patient.controller.dart';
+import 'package:hrms_frontend/features/health_record/controllers/zone.controller.dart';
 import 'package:hrms_frontend/features/health_record/widgets/cards/zone_num_patients.dart';
 import 'package:hrms_frontend/features/health_record/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
@@ -18,25 +20,54 @@ class HRMSDashboard extends StatefulWidget {
 }
 
 class _HRMSDashboardState extends State<HRMSDashboard> {
-  List zoneNumber = [1, 2, 3, 4, 5, 6];
-  List zoneName = ["Uno", "Dox", "Tres", "Kwatro", "Singko", "Sais"];
-  List numPatients = [70, 30, 65, 15, 59, 14];
+  final ZoneController zoneController = ZoneController();
+  final PatientController patientController = PatientController();
+
+  List<dynamic> zones = [];
+  List<dynamic> patients = [];
 
   bool loading = false;
-
   String? userName;
+
+  @override
+  void initState() {
+    super.initState();
+    getHWName();
+    getZones();
+    getPatients();
+  }
+
+  Future getZones() async {
+    setState(() {
+      loading = true;
+    });
+    await zoneController.getZones().then((res) {
+      setState(() {
+        zones = res['data']['data'];
+        loading = false;
+        print(zones);
+      });
+    });
+  }
+
+  Future getPatients() async {
+    setState(() {
+      loading = true;
+    });
+    await patientController.getPatients().then((res) {
+      setState(() {
+        patients = res['data']['data'];
+        loading = false;
+        print(patients);
+      });
+    });
+  }
 
   void getHWName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userName = prefs.getString('userName');
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getHWName();
   }
 
   @override
@@ -74,17 +105,23 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('253', style: dashboardNumbersWhite()),
-                            const SizedBox(height: 5.0),
-                            Text(
-                              'Total no. of Records'.toUpperCase(),
-                              style: descriptionTextStyleWhite(),
-                            ),
-                          ],
-                        ),
+                        loading
+                            ? const SpinKitCircle(
+                                size: 30.0,
+                                color: Colors.white,
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('${patients.length}',
+                                      style: dashboardNumbersWhite()),
+                                  const SizedBox(height: 5.0),
+                                  Text(
+                                    'Total no. of Records'.toUpperCase(),
+                                    style: descriptionTextStyleWhite(),
+                                  ),
+                                ],
+                              ),
                         const Icon(
                           Icons.description_outlined,
                           size: 40.0,
@@ -105,36 +142,22 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
                 thickness: 1.0,
               ),
               const SizedBox(height: 5.0),
-              HRMSPatientPerZoneCard(
-                zoneName: zoneName[0],
-                zoneNum: zoneNumber[0],
-                numPatients: numPatients[0],
-              ),
-              HRMSPatientPerZoneCard(
-                zoneName: zoneName[1],
-                zoneNum: zoneNumber[1],
-                numPatients: numPatients[1],
-              ),
-              HRMSPatientPerZoneCard(
-                zoneName: zoneName[2],
-                zoneNum: zoneNumber[2],
-                numPatients: numPatients[2],
-              ),
-              HRMSPatientPerZoneCard(
-                zoneName: zoneName[3],
-                zoneNum: zoneNumber[3],
-                numPatients: numPatients[3],
-              ),
-              HRMSPatientPerZoneCard(
-                zoneName: zoneName[4],
-                zoneNum: zoneNumber[4],
-                numPatients: numPatients[4],
-              ),
-              HRMSPatientPerZoneCard(
-                zoneName: zoneName[5],
-                zoneNum: zoneNumber[5],
-                numPatients: numPatients[5],
-              ),
+              loading
+                  ? SpinKitCircle(
+                      size: 30.0,
+                      color: AppColors().mainColor(),
+                    )
+                  : Column(
+                      children: zones.map((zone) {
+                        return HRMSPatientPerZoneCard(
+                          zoneNum: zone['zoneNumber'],
+                          numPatients: patients
+                              .where((patient) =>
+                                  patient['zone']['_id'] == zone['_id'])
+                              .length,
+                        );
+                      }).toList(),
+                    ),
               const SizedBox(
                 height: 8.0,
               ),

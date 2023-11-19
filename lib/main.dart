@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
                   builder: (_) => const HRMSMainScreen(), settings: settings);
             case '/landing':
               return CupertinoPageRoute(
-                  builder: (_) => Landing(), settings: settings);
+                  builder: (_) => const Landing(), settings: settings);
             case '/auth/signup':
               return CupertinoPageRoute(
                   builder: (_) => const SignUpScreen(), settings: settings);
