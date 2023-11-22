@@ -43,7 +43,7 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
     });
     await zoneController.getZones().then((res) {
       setState(() {
-        zones = res['data']['data'];
+        zones = res['data']['data'] ?? [];
         loading = false;
         // print(zones);
       });
@@ -56,7 +56,7 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
     });
     await patientController.getPatients().then((res) {
       setState(() {
-        patients = res['data']['data'];
+        patients = res['data']['data'] ?? [];
         loading = false;
         // print(patients);
       });
