@@ -34,7 +34,7 @@ class _HRMSViewMedicinesState extends State<HRMSViewMedicines> {
     },
     {
       "_id": "5bf142459b72e12b2b1b2mf",
-      "name": "Robust Extreme",
+      "name": "Ascorbic Acid",
       "qty": 2,
       "dateGiven": "2023-10-11"
     },
