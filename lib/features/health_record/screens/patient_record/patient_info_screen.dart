@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/core/theme/text_styles.dart';
+import 'package:hrms_frontend/features/health_record/providers/patient.provider.dart';
 import 'package:hrms_frontend/features/health_record/screens/patient_record/medicine/medicines_screen.dart';
 import 'package:hrms_frontend/features/health_record/screens/patient_record/update_patient_record_screen.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/cards/patient_info_text.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
+import 'package:provider/provider.dart';
 
 class HRMSPatientInfoScreen extends StatefulWidget {
   const HRMSPatientInfoScreen({super.key});
@@ -19,9 +21,15 @@ class HRMSPatientInfoScreen extends StatefulWidget {
 DateTime? dateGiven;
 
 class _HRMSPatientInfoScreenState extends State<HRMSPatientInfoScreen> {
+  Map patient = {};
   @override
   Widget build(BuildContext context) {
     final patientData = ModalRoute.of(context)!.settings.arguments as Map;
+    var patientProvider = Provider.of<PatientProvider>(context, listen: true);
+
+    patient = patientProvider.patientList
+        .firstWhere((patient) => patient['_id'] == patientData['_id']);
+    print('$patient hehe');
 
     return Scaffold(
         appBar: const PreferredSize(
@@ -62,28 +70,27 @@ class _HRMSPatientInfoScreenState extends State<HRMSPatientInfoScreen> {
                   ),
                   HRMSPatientInfoText(
                     label: 'Name',
-                    text:
-                        '${patientData['lastName']}, ${patientData['firstName']}',
+                    text: '${patient['lastName']}, ${patient['firstName']}',
                   ),
                   HRMSPatientInfoText(
                     label: 'Zone',
-                    text: '${patientData['zone']}',
+                    text: '${patient['zone']['zoneNumber']}',
                   ),
                   HRMSPatientInfoText(
                     label: 'Street Address',
-                    text: '${patientData['street']}',
+                    text: '${patient['street']}',
                   ),
                   HRMSPatientInfoText(
                     label: 'Barangay',
-                    text: '${patientData['brgy']}',
+                    text: '${patient['barangay']}',
                   ),
                   HRMSPatientInfoText(
                     label: 'City/Municipality',
-                    text: '${patientData['city_municipality']}',
+                    text: '${patient['city_municipality']}',
                   ),
                   HRMSPatientInfoText(
                     label: 'Province',
-                    text: '${patientData['province']}',
+                    text: '${patient['province']}',
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -122,7 +129,6 @@ class _HRMSPatientInfoScreenState extends State<HRMSPatientInfoScreen> {
                     height: 30.0,
                   ),
                   HRMSRoundedButton(
-                    text: 'Update Profile',
                     fullWidth: true,
                     action: () {
                       Navigator.push(
@@ -133,6 +139,11 @@ class _HRMSPatientInfoScreenState extends State<HRMSPatientInfoScreen> {
                               },
                               settings: RouteSettings(arguments: patientData)));
                     },
+                    child: const Text(
+                      'Update Profile',
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.w600),
+                    ),
                   ),
                   const SizedBox(
                     height: 70.0,
