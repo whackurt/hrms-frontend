@@ -6,10 +6,12 @@ import 'package:hrms_frontend/core/theme/text_styles.dart';
 import 'package:hrms_frontend/features/health_record/controllers/patient.controller.dart';
 import 'package:hrms_frontend/features/health_record/controllers/zone.controller.dart';
 import 'package:hrms_frontend/features/health_record/models/patient.model.dart';
+import 'package:hrms_frontend/features/health_record/providers/patient.provider.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/text_field/text_field.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
+import 'package:provider/provider.dart';
 
 class HRMSAddPatientScreen extends StatefulWidget {
   const HRMSAddPatientScreen({super.key});
@@ -60,6 +62,16 @@ class _HRMSAddPatientScreenState extends State<HRMSAddPatientScreen> {
     });
   }
 
+  Future getPatients() async {
+    await patientController.getPatients().then((res) {
+      if (res['success']) {
+        context
+            .read<PatientProvider>()
+            .setPatientList(data: res['data']['data']);
+      }
+    });
+  }
+
   Future createRecord(Patient patient) async {
     await patientController.createPatient(patient: patient).then((res) {
       if (res['success']) {
@@ -79,6 +91,7 @@ class _HRMSAddPatientScreenState extends State<HRMSAddPatientScreen> {
           birthDate = null;
         });
         // _addRecordKey.currentState!.reset();
+        getPatients();
       }
     });
   }
