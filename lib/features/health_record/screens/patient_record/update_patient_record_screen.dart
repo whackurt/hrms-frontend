@@ -1,12 +1,17 @@
 import 'package:date_field/date_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/core/theme/text_styles.dart';
+import 'package:hrms_frontend/features/health_record/controllers/patient.controller.dart';
+import 'package:hrms_frontend/features/health_record/providers/patient.provider.dart';
+import 'package:hrms_frontend/features/health_record/providers/zone.provider.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/text_field/text_field.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
+import 'package:provider/provider.dart';
 
 class HRMSUpdatePatientScreen extends StatefulWidget {
   const HRMSUpdatePatientScreen({super.key});
@@ -16,8 +21,6 @@ class HRMSUpdatePatientScreen extends StatefulWidget {
       _HRMSUpdatePatientScreenState();
 }
 
-DateTime? birthDate;
-
 class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
@@ -26,20 +29,90 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
   TextEditingController cityController = TextEditingController();
   TextEditingController provinceController = TextEditingController();
 
+  PatientController patientController = PatientController();
+
+  String selectedZone = '';
+  String patientId = '';
+  DateTime? birthDate;
+  DateTime? newBirthDate;
+  bool loading = false;
+  bool success = false;
+
+  Map updateData = {};
+  Map patient = {};
+
+  Future updateDataNotEmpty() async {
+    newBirthDate != null
+        ? updateData['birthDate'] = newBirthDate!.toIso8601String()
+        : null;
+
+    selectedZone != '' ? updateData['zone'] = selectedZone : null;
+
+    lastNameController.text.isNotEmpty
+        ? updateData['lastName'] = lastNameController.text.toString()
+        : null;
+    firstNameController.text.isNotEmpty
+        ? updateData['firstName'] = firstNameController.text.toString()
+        : null;
+    streetController.text.isNotEmpty
+        ? updateData['street'] = streetController.text.toString()
+        : null;
+    brgyController.text.isNotEmpty
+        ? updateData['barangay'] = brgyController.text.toString()
+        : null;
+    cityController.text.isNotEmpty
+        ? updateData['city_municipality'] = cityController.text.toString()
+        : null;
+    provinceController.text.isNotEmpty
+        ? updateData['province'] = provinceController.text.toString()
+        : null;
+
+    return updateData.isNotEmpty;
+  }
+
+  Future saveUpdate() async {
+    setState(() {
+      loading = true;
+    });
+    await patientController
+        .updatePatient(patientId: patientId, data: updateData)
+        .then((res) {
+      if (res['success']) {
+        setState(() {
+          loading = false;
+          success = true;
+          Future.delayed(const Duration(seconds: 3), () {
+            setState(() {
+              success = false;
+            });
+            updateData.clear();
+            lastNameController.clear();
+            firstNameController.clear();
+            streetController.clear();
+            brgyController.clear();
+            cityController.clear();
+            provinceController.clear();
+          });
+        });
+      }
+    });
+
+    await patientController.getPatients().then((res) {
+      context.read<PatientProvider>().setPatientList(data: res['data']['data']);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var patientData = ModalRoute.of(context)!.settings.arguments as Map;
-    List zones = [];
+    var zoneProvider = Provider.of<ZoneProvider>(context, listen: true);
+    var patientProvider = Provider.of<PatientProvider>(context, listen: true);
 
-    lastNameController.text = patientData['lastName'];
-    firstNameController.text = patientData['firstName'];
-    streetController.text = patientData['street'];
-    brgyController.text = patientData['brgy'];
-    cityController.text = patientData['city_municipality'];
-    provinceController.text = patientData['province'];
-    String selectedZone = zones.first;
-    selectedZone = zones[patientData['zone'] - 1];
-    birthDate = DateTime.parse(patientData['birthDate']);
+    setState(() {
+      patientId = patientData['_id'];
+    });
+    patient = patientProvider.patientList
+        .firstWhere((patient) => patient['_id'] == patientId);
 
     return Scaffold(
         appBar: const PreferredSize(
@@ -80,17 +153,17 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
               ),
               HRMSTextField(
                 label: "Last Name",
-                hintText: "${patientData['lastName']}",
+                hintText: "${patient['lastName']}",
                 controller: lastNameController,
               ),
               HRMSTextField(
                 label: "First Name",
-                hintText: "Enter First Name",
+                hintText: "${patient['firstName']}",
                 controller: firstNameController,
               ),
               HRMSTextField(
                 label: "Street Name",
-                hintText: "Enter Street Name",
+                hintText: "${patient['street']}",
                 controller: streetController,
               ),
               const Row(
@@ -104,21 +177,21 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
                 ],
               ),
               DropdownButtonFormField<String>(
-                value: selectedZone,
+                // value: selectedZone,
                 isExpanded: true,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
                   isDense: true,
                   filled: true,
                   fillColor: Colors.white,
                   contentPadding:
-                      EdgeInsets.all(12), // Adjust the content padding
-                  hintText: 'Select Zone',
+                      const EdgeInsets.all(12), // Adjust the content padding
+                  hintText: '${patient['zone']['zoneNumber']}',
                 ),
-                items: zones.map((value) {
+                items: zoneProvider.zoneList.map((zone) {
                   return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
+                    value: zone['_id'],
+                    child: Text('${zone['zoneNumber']}'),
                   );
                 }).toList(),
                 onChanged: (String? newValue) {
@@ -132,17 +205,17 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
               ),
               HRMSTextField(
                 label: "Barangay",
-                hintText: "Enter Barangay",
+                hintText: "${patient['barangay']}",
                 controller: brgyController,
               ),
               HRMSTextField(
                 label: "City/Municipality",
-                hintText: "Enter City/Municipality",
+                hintText: "${patient['city_municipality']}",
                 controller: cityController,
               ),
               HRMSTextField(
                 label: "Province",
-                hintText: "Enter Province",
+                hintText: "${patient['province']}",
                 controller: provinceController,
               ),
               const Row(
@@ -156,6 +229,7 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
                 ],
               ),
               DateTimeField(
+                initialDate: DateTime.tryParse(patient['birthDate']),
                 decoration: const InputDecoration(
                     border: InputBorder.none,
                     filled: true,
@@ -163,48 +237,42 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
                 mode: DateTimeFieldPickerMode.date,
                 onDateSelected: (DateTime value) {
                   setState(() {
-                    birthDate = value;
+                    newBirthDate = value;
                   });
                 },
-                selectedDate: birthDate,
+                selectedDate:
+                    newBirthDate ?? DateTime.tryParse(patient['birthDate']),
               ),
               const SizedBox(
                 height: 20.0,
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  success ? 'Profile updated successfully.' : '',
+                  style:
+                      const TextStyle(color: Color.fromARGB(255, 28, 114, 31)),
+                ),
+              ),
               HRMSRoundedButton(
-                text: "Save Changes",
                 fullWidth: true,
-                action: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          'Confirm Update',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        content: const Text(
-                            'Are you sure you want to save changes?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pop(); // Close the alert dialog
-                            },
-                            child: const Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pop(); // Close the alert dialog
-                            },
-                            child: const Text('Yes'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                action: () async {
+                  var updateNotEmpty = await updateDataNotEmpty();
+
+                  if (updateNotEmpty) {
+                    saveUpdate();
+                  }
                 },
+                child: loading
+                    ? const SpinKitCircle(
+                        color: Colors.white,
+                        size: 30.0,
+                      )
+                    : const Text(
+                        'Save Changes',
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.w600),
+                      ),
               ),
               const SizedBox(
                 height: 70.0,

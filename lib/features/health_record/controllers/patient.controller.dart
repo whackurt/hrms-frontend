@@ -20,4 +20,10 @@ class PatientController {
     var res = await patientServices.createPatient(patient: patient);
     return res;
   }
+
+  Future updatePatient({required String patientId, required data}) async {
+    var res =
+        await patientServices.updatePatientProfile(id: patientId, data: data);
+    return res;
+  }
 }

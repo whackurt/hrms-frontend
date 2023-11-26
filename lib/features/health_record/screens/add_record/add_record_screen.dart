@@ -80,18 +80,24 @@ class _HRMSAddPatientScreenState extends State<HRMSAddPatientScreen> {
           success = res['success'];
         });
 
-        firstNameController.clear();
-        lastNameController.clear();
-        streetController.clear();
-        brgyController.clear();
-        cityController.clear();
-        provinceController.clear();
         setState(() {
           selectedZone = zones.first['_id'];
           birthDate = null;
         });
-        // _addRecordKey.currentState!.reset();
+
         getPatients();
+
+        Future.delayed(const Duration(seconds: 3), () {
+          setState(() {
+            success = false;
+          });
+          firstNameController.clear();
+          lastNameController.clear();
+          streetController.clear();
+          brgyController.clear();
+          cityController.clear();
+          provinceController.clear();
+        });
       }
     });
   }

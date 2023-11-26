@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/core/theme/text_styles.dart';
+import 'package:hrms_frontend/features/health_record/controllers/patient.controller.dart';
+import 'package:hrms_frontend/features/health_record/providers/patient.provider.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/cards/patient_list_card.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
+import 'package:provider/provider.dart';
 
 class HRMSPatientListScreen extends StatefulWidget {
   const HRMSPatientListScreen({super.key});
@@ -13,51 +16,25 @@ class HRMSPatientListScreen extends StatefulWidget {
 }
 
 class _HRMSPatientListScreenState extends State<HRMSPatientListScreen> {
+  PatientController patientController = PatientController();
+
+  List patients = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Map zoneData = ModalRoute.of(context)!.settings.arguments as Map;
+    var patientProvider = Provider.of<PatientProvider>(context, listen: true);
 
     var zoneNumber = zoneData['zoneNumber'];
-    // var zoneId = zoneData['zoneId'];
 
-    List<Map<String, dynamic>> patientList = [
-      {
-        "_id": "89w8busdjh9w9eury89",
-        "firstName": "Irish Jane Marie Claire",
-        "lastName": "Bajarla",
-        "address": "Zone 3 Tres",
-        "street": "Magdadaro St.",
-        "brgy": "Bayabas",
-        "city_municipality": "Cagayan de Oro",
-        "province": "Misamis Oriental",
-        "zone": 6,
-        "birthDate": "2002-08-08"
-      },
-      {
-        "_id": "89w8busdjh9w9eury98",
-        "firstName": "Hanz Mariel Kent Joe Mario",
-        "lastName": "Ibarra",
-        "address": "Zone 5 Singko",
-        "street": "Caballero St.",
-        "brgy": "Puerto",
-        "city_municipality": "Cagayan de Oro",
-        "province": "Misamis Oriental",
-        "zone": 5,
-        "birthDate": "2002-08-11"
-      },
-      {
-        "_id": "89w8busdjh9w9eur56",
-        "firstName": "Gabriel",
-        "lastName": "Balagulan",
-        "address": "Zone 2 Dos",
-        "street": "Caballero St.",
-        "brgy": "Puerto",
-        "city_municipality": "Cagayan de Oro",
-        "province": "Misamis Oriental",
-        "zone": 3,
-        "birthDate": "2002-08-08"
-      },
-    ];
+    patients = patientProvider.patientList
+        .where((patient) => patient['zone']['_id'] == zoneData['zoneId'])
+        .toList();
 
     return Scaffold(
         appBar: const PreferredSize(
@@ -93,7 +70,7 @@ class _HRMSPatientListScreenState extends State<HRMSPatientListScreen> {
               ),
               const SizedBox(height: 20.0),
               Column(
-                children: patientList.map((patient) {
+                children: patients.map((patient) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
                     child: HRMSPatientListCard(
@@ -101,7 +78,8 @@ class _HRMSPatientListScreenState extends State<HRMSPatientListScreen> {
                     ),
                   );
                 }).toList(),
-              )
+              ),
+              const SizedBox(height: 70.0),
             ],
           ),
         ));

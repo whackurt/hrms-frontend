@@ -43,7 +43,7 @@ class _HRMSZoneCardState extends State<HRMSZoneCard> {
                     width: 16.0,
                   ),
                   Text(
-                    'Zone ${widget.zoneInfo!['zoneNumber']} - ${widget.zoneInfo!['zoneName']}',
+                    'Zone ${widget.zoneInfo!['zoneNumber']}',
                     style: TextStyle(
                         fontSize: 18.0,
                         // fontWeight: FontWeight.w600,
