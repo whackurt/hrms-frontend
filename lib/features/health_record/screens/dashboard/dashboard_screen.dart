@@ -6,10 +6,13 @@ import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/features/auth/screens/login_screen.dart';
 import 'package:hrms_frontend/features/health_record/controllers/patient.controller.dart';
 import 'package:hrms_frontend/features/health_record/controllers/zone.controller.dart';
+import 'package:hrms_frontend/features/health_record/providers/patient.provider.dart';
+import 'package:hrms_frontend/features/health_record/providers/zone.provider.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/cards/zone_num_patients.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HRMSDashboard extends StatefulWidget {
@@ -45,8 +48,9 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
       setState(() {
         zones = res['data']['data'] ?? [];
         loading = false;
-        // print(zones);
       });
+
+      context.read<ZoneProvider>().setZoneList(data: zones);
     });
   }
 
@@ -58,8 +62,9 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
       setState(() {
         patients = res['data']['data'] ?? [];
         loading = false;
-        // print(patients);
       });
+
+      context.read<PatientProvider>().setPatientList(data: patients);
     });
   }
 
@@ -72,6 +77,9 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    var zoneProvider = Provider.of<ZoneProvider>(context, listen: true);
+    var patientProvider = Provider.of<PatientProvider>(context, listen: true);
+
     return Scaffold(
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(50),
@@ -120,7 +128,8 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('${patients.length}',
+                                    Text(
+                                        '${patientProvider.patientList.length}',
                                         style: dashboardNumbersWhite()),
                                     const SizedBox(height: 5.0),
                                     Text(
@@ -155,10 +164,10 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
                         color: AppColors().mainColor(),
                       )
                     : Column(
-                        children: zones.map((zone) {
+                        children: zoneProvider.zoneList.map((zone) {
                           return HRMSPatientPerZoneCard(
                             zoneNum: zone['zoneNumber'],
-                            numPatients: patients
+                            numPatients: patientProvider.patientList
                                 .where((patient) =>
                                     patient['zone']['_id'] == zone['_id'])
                                 .length,
