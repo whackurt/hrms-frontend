@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hrms_frontend/features/health_record/controllers/medicine.controller.dart';
+import 'package:hrms_frontend/features/health_record/providers/medicine.provider.dart';
 import 'package:hrms_frontend/features/health_record/screens/patient_record/medicine/update_medicine_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HRMSMedicineCard extends StatefulWidget {
   final Map? med;
@@ -16,6 +19,30 @@ DateTime? dateGiven;
 class _HRMSMedicineCardState extends State<HRMSMedicineCard> {
   TextEditingController medNameController = TextEditingController();
   TextEditingController qtyController = TextEditingController();
+
+  MedicineController medicineController = MedicineController();
+
+  Future getMedicines() async {
+    await medicineController.getMedicines().then((res) {
+      if (res['success']) {
+        context
+            .read<MedicineProvider>()
+            .setMedicines(data: res['data']['data']);
+
+        setState(() {
+          // submitLoading = false;
+        });
+      }
+    });
+  }
+
+  Future deleteMedicine(String medicineId) async {
+    await medicineController.deleteMedicine(medicineId: medicineId).then((res) {
+      if (res['success']) {
+        getMedicines();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,11 +152,16 @@ class _HRMSMedicineCardState extends State<HRMSMedicineCard> {
                                 child: const Text('Cancel'),
                               ),
                               TextButton(
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pop(); // Close the alert dialog
+                                onPressed: () async {
+                                  await deleteMedicine(widget.med!['_id']);
+
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.of(context).pop();
                                 },
-                                child: const Text('Yes'),
+                                child: Text(
+                                  'Yes',
+                                  style: TextStyle(color: Colors.red[800]),
+                                ),
                               ),
                             ],
                           );
