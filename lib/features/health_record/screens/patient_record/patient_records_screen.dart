@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hrms_frontend/features/health_record/controllers/medicine.controller.dart';
+import 'package:hrms_frontend/features/health_record/providers/medicine.provider.dart';
 import 'package:hrms_frontend/features/health_record/providers/zone.provider.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/cards/zone_card.dart';
@@ -14,6 +16,32 @@ class HRMSPatientRecordsScreen extends StatefulWidget {
 }
 
 class _HRMSPatientRecordsScreenState extends State<HRMSPatientRecordsScreen> {
+  bool loading = false;
+
+  MedicineController medicineController = MedicineController();
+  Future getMedicines() async {
+    setState(() {
+      loading = true;
+    });
+    await medicineController.getMedicines().then((res) {
+      if (res['success']) {
+        context
+            .read<MedicineProvider>()
+            .setMedicines(data: res['data']['data']);
+
+        setState(() {
+          loading = false;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getMedicines();
+  }
+
   @override
   Widget build(BuildContext context) {
     var zoneProvider = Provider.of<ZoneProvider>(context, listen: true);
