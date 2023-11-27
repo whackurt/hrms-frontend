@@ -74,6 +74,7 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
     setState(() {
       loading = true;
     });
+
     await patientController
         .updatePatient(patientId: patientId, data: updateData)
         .then((res) {
@@ -85,13 +86,15 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
             setState(() {
               success = false;
             });
-            updateData.clear();
+
             lastNameController.clear();
             firstNameController.clear();
             streetController.clear();
             brgyController.clear();
             cityController.clear();
             provinceController.clear();
+
+            updateData.clear();
           });
         });
       }

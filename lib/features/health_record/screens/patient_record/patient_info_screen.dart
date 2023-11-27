@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/core/theme/text_styles.dart';
+import 'package:hrms_frontend/features/health_record/providers/medicine.provider.dart';
 import 'package:hrms_frontend/features/health_record/providers/patient.provider.dart';
 import 'package:hrms_frontend/features/health_record/screens/patient_record/medicine/medicines_screen.dart';
 import 'package:hrms_frontend/features/health_record/screens/patient_record/update_patient_record_screen.dart';
@@ -10,6 +11,7 @@ import 'package:hrms_frontend/features/health_record/screens/widgets/content_wra
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
 import 'package:provider/provider.dart';
+import 'package:hrms_frontend/features/health_record/controllers/medicine.controller.dart';
 
 class HRMSPatientInfoScreen extends StatefulWidget {
   const HRMSPatientInfoScreen({super.key});
@@ -21,15 +23,28 @@ class HRMSPatientInfoScreen extends StatefulWidget {
 DateTime? dateGiven;
 
 class _HRMSPatientInfoScreenState extends State<HRMSPatientInfoScreen> {
+  MedicineController medicineController = MedicineController();
+
   Map patient = {};
+  bool loading = false;
+  String patientId = '';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final patientData = ModalRoute.of(context)!.settings.arguments as Map;
     var patientProvider = Provider.of<PatientProvider>(context, listen: true);
 
+    setState(() {
+      patientId = patientData['_id'];
+    });
+
     patient = patientProvider.patientList
         .firstWhere((patient) => patient['_id'] == patientData['_id']);
-    print('$patient hehe');
 
     return Scaffold(
         appBar: const PreferredSize(
@@ -131,6 +146,9 @@ class _HRMSPatientInfoScreenState extends State<HRMSPatientInfoScreen> {
                   HRMSRoundedButton(
                     fullWidth: true,
                     action: () {
+                      context
+                          .read<MedicineProvider>()
+                          .setPatientId(id: patientData['_id']);
                       Navigator.push(
                           context,
                           CupertinoPageRoute(
