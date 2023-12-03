@@ -11,7 +11,6 @@ import 'package:hrms_frontend/features/health_record/providers/zone.provider.dar
 import 'package:hrms_frontend/features/health_record/screens/widgets/cards/zone_num_patients.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
-import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
 import 'package:hrms_frontend/widgets/buttons/white_rounded_btn.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
