@@ -1,54 +1,24 @@
-import 'dart:convert';
 import 'package:hrms_frontend/config/api.dart';
+import 'package:hrms_frontend/features/auth/auth.services.dart';
+import 'package:hrms_frontend/features/auth/models/admin.model.dart';
 import 'package:hrms_frontend/features/auth/models/healthWorker.model.dart';
-import 'package:http/http.dart' as http;
 
 class AuthController {
   Api api = Api();
+  AuthServices authServices = AuthServices();
 
-  Future login(HealthWorker healthWorker) async {
-    http.Response response = await http.post(
-      Uri.parse('${api.baseUrl}/auth/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'hwid': healthWorker.healthWorkerId,
-        'password': healthWorker.password
-      }),
-    );
-
-    Map jsonRes = jsonDecode(response.body) as Map<String, dynamic>;
-
-    if (response.statusCode == 200) {
-      return {"success": true, "data": jsonRes};
-    } else {
-      return {"success": false, "data": jsonRes};
-    }
+  Future loginHealthworker(HealthWorker healthWorker) async {
+    var res = await authServices.loginHealthworker(healthWorker);
+    return res;
   }
 
-  Future signup(HealthWorker healthWorker) async {
-    http.Response response = await http.post(
-      Uri.parse('${api.baseUrl}/auth/signup'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'name': healthWorker.name,
-        'hwid': healthWorker.healthWorkerId,
-        'password': healthWorker.password
-      }),
-    );
+  Future loginAdmin(Admin admin) async {
+    var res = await authServices.loginAdmin(admin);
+    return res;
+  }
 
-    Map jsonRes = jsonDecode(response.body) as Map<String, dynamic>;
-
-    if (response.statusCode == 201) {
-      return {"success": true, "data": jsonRes};
-    } else {
-      return {
-        "success": false,
-        "data": {"message": "Healthworker ID is taken already."}
-      };
-    }
+  Future createHealthworker(HealthWorker healthWorker) async {
+    var res = await authServices.createHealthworker(healthWorker);
+    return res;
   }
 }
