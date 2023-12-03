@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hrms_frontend/features/auth/screens/signup_screen.dart';
 import 'package:hrms_frontend/features/health_record/controllers/medicine.controller.dart';
 import 'package:hrms_frontend/features/health_record/models/medicine.model.dart';
 import 'package:hrms_frontend/features/health_record/providers/medicine.provider.dart';
@@ -31,7 +30,7 @@ class _HRMSViewMedicinesState extends State<HRMSViewMedicines> {
   Future addMedicine(Medicine medicine) async {
     await medicineController.createMedicine(
         medicine: Medicine(
-            name: nameController.text,
+            name: medNameController.text,
             qty: int.parse(qtyController.text),
             patientId: patientId,
             dateGiven: dateGiven));

@@ -6,7 +6,7 @@ import 'package:hrms_frontend/core/theme/app_icon.dart';
 import 'package:hrms_frontend/features/auth/controllers/auth.controller.dart';
 import 'package:hrms_frontend/features/auth/models/admin.model.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
-import 'package:hrms_frontend/features/healthworker_mngt/screens/create_healthworker_screen.dart';
+import 'package:hrms_frontend/features/hw_account_mngt/screens/create_healthworker_screen.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
 import 'package:hrms_frontend/widgets/text/app_text.dart';

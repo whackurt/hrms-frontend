@@ -83,17 +83,6 @@ class _HRMSCreateHealthworkerScreenState
                         height: 40.0,
                       ),
                       appIcon(),
-                      // HRMSText().AppTitle(),
-                      // const SizedBox(
-                      //   height: 30.0,
-                      // ),
-                      // Text(
-                      //   'Create Healthworker Account',
-                      //   style: TextStyle(
-                      //       // fontWeight: FontWeight.w700,
-                      //       fontSize: 20.0,
-                      //       color: ac.mainColor()),
-                      // ),
                     ],
                   ),
                   const SizedBox(
