@@ -4,6 +4,7 @@ import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/core/theme/app_icon.dart';
 import 'package:hrms_frontend/features/auth/controllers/auth.controller.dart';
 import 'package:hrms_frontend/features/auth/models/healthWorker.model.dart';
+import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
 import 'package:hrms_frontend/widgets/text/app_text.dart';
 import 'package:hrms_frontend/widgets/text_field/text_field.dart';
@@ -31,6 +32,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: HRMSAppBar(
+            title: '',
+          )),
       body: SafeArea(
         child: Container(
           alignment: Alignment.topCenter,
@@ -45,8 +51,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       appIcon(),
                       HRMSText().AppTitle(),
+                      const SizedBox(
+                        height: 30.0,
+                      ),
                       Text(
-                        'Log In',
+                        'Log in as Healthworker',
                         style: TextStyle(
                             // fontWeight: FontWeight.w700,
                             fontSize: 20.0,
@@ -107,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               loading = true;
                             });
                             await auth
-                                .login(HealthWorker(
+                                .loginHealthworker(HealthWorker(
                                     healthWorkerId: hwidController.text.trim(),
                                     name: '',
                                     password: passwordController.text.trim()))
@@ -149,24 +158,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         .w700), // Adjust text style as needed
                               ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Don\'t have an account?'),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.popAndPushNamed(
-                                    context, '/auth/signup');
-                              },
-                              child: Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                    color: ac.mainColor(),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15.0),
-                              ))
-                        ],
-                      )
                     ],
                   )
                 ],

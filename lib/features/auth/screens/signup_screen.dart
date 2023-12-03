@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
@@ -118,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             });
 
                             await auth
-                                .signup(HealthWorker(
+                                .createHealthworker(HealthWorker(
                                     healthWorkerId: hwidController.text.trim(),
                                     name: nameController.text.trim(),
                                     password: passwordController.text.trim()))
@@ -139,7 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             if (data['message'] ==
                                 'Healthworker registered successfully.') {
                               await auth
-                                  .login(HealthWorker(
+                                  .loginHealthworker(HealthWorker(
                                       healthWorkerId: data['healthWorkerId'],
                                       name: '',
                                       password: passwordController.text.trim()))

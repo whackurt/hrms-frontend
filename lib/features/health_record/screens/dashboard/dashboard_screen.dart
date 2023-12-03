@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hrms_frontend/core/constants/screens/landing_screen.dart';
 import 'package:hrms_frontend/core/theme/text_styles.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
-import 'package:hrms_frontend/features/auth/screens/login_screen.dart';
 import 'package:hrms_frontend/features/health_record/controllers/patient.controller.dart';
 import 'package:hrms_frontend/features/health_record/controllers/zone.controller.dart';
 import 'package:hrms_frontend/features/health_record/providers/patient.provider.dart';
@@ -12,6 +12,7 @@ import 'package:hrms_frontend/features/health_record/screens/widgets/cards/zone_
 import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
+import 'package:hrms_frontend/widgets/buttons/white_rounded_btn.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -177,7 +178,7 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                HRMSRoundedButton(
+                HRMSWhiteRoundedButton(
                     fullWidth: true,
                     action: () {
                       showDialog(
@@ -217,7 +218,7 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
                                       .pushAndRemoveUntil(
                                           CupertinoPageRoute(
                                               builder: (context) =>
-                                                  const LoginScreen()),
+                                                  const Landing()),
                                           (route) => false);
                                 },
                                 child: const Text(
@@ -230,10 +231,12 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
                         },
                       );
                     },
-                    child: const Text(
+                    child: Text(
                       'Log out',
                       style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.w600),
+                          color: AppColors().mainColor(),
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w600),
                     )),
                 const SizedBox(height: 60.0),
               ],
