@@ -34,6 +34,7 @@ class _HRMSUpdateMedicineScreenState extends State<HRMSUpdateMedicineScreen> {
   Future saveChanges({required String medicineId, required Map data}) async {
     setState(() {
       loading = true;
+      success = false;
     });
     await medicineController
         .updateMedicine(medicineId: medicineId, updateData: data)
@@ -56,11 +57,11 @@ class _HRMSUpdateMedicineScreenState extends State<HRMSUpdateMedicineScreen> {
             loading = false;
           });
 
-          Future.delayed(const Duration(seconds: 3), () {
-            setState(() {
-              success = false;
-            });
-          });
+          // Future.delayed(const Duration(seconds: 3), () {
+          //   setState(() {
+          //     success = false;
+          //   });
+          // });
         }
       });
     }

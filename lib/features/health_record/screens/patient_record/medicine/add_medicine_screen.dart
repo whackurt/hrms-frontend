@@ -56,6 +56,10 @@ class _HRMSAddMedicineScreenState extends State<HRMSAddMedicineScreen> {
   }
 
   Future createMedicine(Medicine medicine) async {
+    setState(() {
+      success = false;
+    });
+
     await medicineController.createMedicine(medicine: medicine).then((res) {
       if (res['success']) {
         setState(() {
@@ -65,11 +69,11 @@ class _HRMSAddMedicineScreenState extends State<HRMSAddMedicineScreen> {
 
         getMedicines();
 
-        Future.delayed(const Duration(seconds: 2), () {
-          setState(() {
-            success = false;
-          });
-        });
+        // Future.delayed(const Duration(seconds: 2), () {
+        //   setState(() {
+        //     success = false;
+        //   });
+        // });
       }
     });
   }
