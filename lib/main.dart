@@ -7,7 +7,7 @@ import 'package:hrms_frontend/features/health_record/main_screen.dart';
 import 'package:hrms_frontend/features/health_record/providers/medicine.provider.dart';
 import 'package:hrms_frontend/features/health_record/providers/patient.provider.dart';
 import 'package:hrms_frontend/features/health_record/providers/zone.provider.dart';
-import 'package:hrms_frontend/features/hw_account_mngt/screens/create_healthworker_screen.dart';
+import 'package:hrms_frontend/features/auth/screens/create_healthworker_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

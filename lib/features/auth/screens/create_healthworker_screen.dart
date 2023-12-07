@@ -243,6 +243,9 @@ class _HRMSCreateHealthworkerScreenState
                                   .w700), // Adjust text style as needed
                         ),
                       ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
                     ],
                   )
                 ],
