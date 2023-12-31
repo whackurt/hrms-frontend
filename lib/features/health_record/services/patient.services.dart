@@ -79,4 +79,23 @@ class PatientServices {
       return {"success": false, "data": jsonRes};
     }
   }
+
+  Future deletePatient({required String id}) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    http.Response response =
+        await http.delete(Uri.parse('${api.baseUrl}/patient/$id'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'auth-token': pref.getString('token').toString(),
+            },);
+
+    Map jsonRes = jsonDecode(response.body) as Map<String, dynamic>;
+
+    if (response.statusCode == 200) {
+      return {"success": true, "data": jsonRes};
+    } else {
+      return {"success": false, "data": jsonRes};
+    }
+  }
 }

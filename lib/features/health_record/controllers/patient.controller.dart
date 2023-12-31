@@ -26,4 +26,9 @@ class PatientController {
         await patientServices.updatePatientProfile(id: patientId, data: data);
     return res;
   }
+
+  Future deletePatient({required String patientId}) async {
+    var res = await patientServices.deletePatient(id: patientId);
+    return res;
+  }
 }
