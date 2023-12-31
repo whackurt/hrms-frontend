@@ -19,6 +19,7 @@ class _HRMSPatientListScreenState extends State<HRMSPatientListScreen> {
   PatientController patientController = PatientController();
 
   List patients = [];
+  var query = '';
 
   @override
   void initState() {
@@ -32,9 +33,18 @@ class _HRMSPatientListScreenState extends State<HRMSPatientListScreen> {
 
     var zoneNumber = zoneData['zoneNumber'];
 
-    patients = patientProvider.patientList
-        .where((patient) => patient['zone']['_id'] == zoneData['zoneId'])
-        .toList();
+    patients = query != ''
+        ? patients.where((patient) {
+            String firstName = patient['firstName'].toLowerCase();
+            String lastName = patient['lastName'].toLowerCase();
+            String searchQuery = query.toLowerCase();
+
+            return firstName.contains(searchQuery) ||
+                lastName.contains(searchQuery);
+          }).toList()
+        : patientProvider.patientList
+            .where((patient) => patient['zone']['_id'] == zoneData['zoneId'])
+            .toList();
 
     return Scaffold(
         appBar: const PreferredSize(
@@ -69,16 +79,39 @@ class _HRMSPatientListScreenState extends State<HRMSPatientListScreen> {
                 ],
               ),
               const SizedBox(height: 20.0),
-              Column(
-                children: patients.map((patient) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: HRMSPatientListCard(
-                      patientInfo: patient,
-                    ),
-                  );
-                }).toList(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: TextFormField(
+                  enabled: patients.isNotEmpty,
+                  onChanged: (value) {
+                    setState(() {
+                      query = value;
+                    });
+                  },
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Search',
+                    icon: Icon(Icons.search),
+                  ),
+                ),
               ),
+              const SizedBox(height: 20.0),
+              patients.isEmpty
+                  ? const Text('No patients')
+                  : Column(
+                      children: patients.map((patient) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5.0),
+                          child: HRMSPatientListCard(
+                            patientInfo: patient,
+                          ),
+                        );
+                      }).toList(),
+                    ),
               const SizedBox(height: 70.0),
             ],
           ),
