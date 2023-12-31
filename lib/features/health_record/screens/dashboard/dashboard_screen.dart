@@ -166,6 +166,7 @@ class _HRMSDashboardState extends State<HRMSDashboard> {
                     : Column(
                         children: zoneProvider.zoneList.map((zone) {
                           return HRMSPatientPerZoneCard(
+                            id: zone['_id'],
                             zoneNum: zone['zoneNumber'],
                             numPatients: patientProvider.patientList
                                 .where((patient) =>
