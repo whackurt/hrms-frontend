@@ -86,18 +86,6 @@ class _HRMSAddPatientScreenState extends State<HRMSAddPatientScreen> {
         });
 
         getPatients();
-
-        Future.delayed(const Duration(seconds: 3), () {
-          setState(() {
-            success = false;
-          });
-          firstNameController.clear();
-          lastNameController.clear();
-          streetController.clear();
-          brgyController.clear();
-          cityController.clear();
-          provinceController.clear();
-        });
       }
     });
   }
