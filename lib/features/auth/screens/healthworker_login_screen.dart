@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hrms_frontend/core/theme/app_colors.dart';
 import 'package:hrms_frontend/core/theme/app_icon.dart';
 import 'package:hrms_frontend/features/auth/controllers/auth.controller.dart';
 import 'package:hrms_frontend/features/auth/models/healthWorker.model.dart';
+import 'package:hrms_frontend/features/health_record/main_screen.dart';
 import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
 import 'package:hrms_frontend/widgets/text/app_text.dart';
@@ -134,7 +136,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hwidController.clear();
                                 passwordController.clear();
 
-                                Navigator.popAndPushNamed(context, '/');
+                                Navigator.of(context, rootNavigator: true)
+                                    .pushAndRemoveUntil(
+                                        CupertinoPageRoute(
+                                            builder: (context) =>
+                                                const HRMSMainScreen()),
+                                        (route) => false);
                               } else {
                                 setState(() {
                                   statusMsg = res['data']['message'];
