@@ -101,7 +101,7 @@ class _HRMSPatientListScreenState extends State<HRMSPatientListScreen> {
               ),
               const SizedBox(height: 20.0),
               patients.isEmpty
-                  ? const Text('No patients')
+                  ? Text('No patient found for Zone $zoneNumber')
                   : Column(
                       children: patients.map((patient) {
                         return Padding(
