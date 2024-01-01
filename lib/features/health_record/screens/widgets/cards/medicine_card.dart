@@ -159,7 +159,7 @@ class _HRMSMedicineCardState extends State<HRMSMedicineCard> {
                                   Navigator.of(context).pop();
                                 },
                                 child: Text(
-                                  'Yes',
+                                  'Delete',
                                   style: TextStyle(color: Colors.red[800]),
                                 ),
                               ),
