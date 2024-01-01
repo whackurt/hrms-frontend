@@ -335,7 +335,7 @@ class _HRMSAddPatientScreenState extends State<HRMSAddPatientScreen> {
                               ),
                       ),
                       const SizedBox(
-                        height: 70.0,
+                        height: 20.0,
                       ),
                     ],
                   ),
