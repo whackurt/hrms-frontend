@@ -121,7 +121,7 @@ class _HRMSUpdatePatientScreenState extends State<HRMSUpdatePatientScreen> {
         appBar: const PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: HRMSAppBar(
-              title: 'Update Profile',
+              title: '',
             )),
         body: HRMSContentWrapper(
           child: Column(

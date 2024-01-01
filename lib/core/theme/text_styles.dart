@@ -3,7 +3,7 @@ import 'package:hrms_frontend/core/theme/app_colors.dart';
 
 TextStyle headingTextStyle() {
   return TextStyle(
-      fontSize: 35.0, color: Colors.grey[800], fontWeight: FontWeight.w700);
+      fontSize: 25.0, color: Colors.grey[800], fontWeight: FontWeight.w700);
 }
 
 TextStyle descriptionTextStyleWhite() {

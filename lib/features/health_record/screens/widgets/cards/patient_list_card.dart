@@ -45,7 +45,7 @@ class _HRMSPatientListCardState extends State<HRMSPatientListCard> {
                       child: Text(
                         '${widget.patientInfo!['lastName']}, ${widget.patientInfo!['firstName']}',
                         style: TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.w400,
                           color: appColor,
                         ),

@@ -50,7 +50,7 @@ class _HRMSPatientListScreenState extends State<HRMSPatientListScreen> {
         appBar: const PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: HRMSAppBar(
-              title: 'Patient List',
+              title: '',
             )),
         body: HRMSContentWrapper(
           child: Column(
@@ -101,7 +101,7 @@ class _HRMSPatientListScreenState extends State<HRMSPatientListScreen> {
               ),
               const SizedBox(height: 20.0),
               patients.isEmpty
-                  ? Text('No patient found for Zone $zoneNumber')
+                  ? const Text('No record found ')
                   : Column(
                       children: patients.map((patient) {
                         return Padding(

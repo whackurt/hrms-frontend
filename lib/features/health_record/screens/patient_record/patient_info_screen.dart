@@ -50,7 +50,7 @@ class _HRMSPatientInfoScreenState extends State<HRMSPatientInfoScreen> {
         appBar: const PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: HRMSAppBar(
-              title: 'Health Record',
+              title: '',
             )),
         body: HRMSContentWrapper(
           child: Column(
@@ -152,6 +152,7 @@ class _HRMSPatientInfoScreenState extends State<HRMSPatientInfoScreen> {
                       Navigator.push(
                           context,
                           CupertinoPageRoute(
+                              fullscreenDialog: true,
                               builder: (context) {
                                 return const HRMSUpdatePatientScreen();
                               },

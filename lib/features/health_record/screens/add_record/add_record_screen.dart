@@ -9,7 +9,6 @@ import 'package:hrms_frontend/features/health_record/models/patient.model.dart';
 import 'package:hrms_frontend/features/health_record/providers/patient.provider.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/content_wrapper.dart';
 import 'package:hrms_frontend/features/health_record/screens/widgets/text_field/text_field.dart';
-import 'package:hrms_frontend/widgets/app_bar/hrms_appbar.dart';
 import 'package:hrms_frontend/widgets/buttons/rounded_btn.dart';
 import 'package:provider/provider.dart';
 
@@ -104,11 +103,11 @@ class _HRMSAddPatientScreenState extends State<HRMSAddPatientScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(50),
-          child: HRMSAppBar(
-            title: 'Add Record',
-          )),
+      // appBar: const PreferredSize(
+      //     preferredSize: Size.fromHeight(50),
+      //     child: HRMSAppBar(
+      //       title: 'Add Record',
+      //     )),
       body: RefreshIndicator(
         onRefresh: () async {
           _addRecordKey.currentState!.reset();

@@ -38,7 +38,7 @@ class _HRMSMainScreenState extends State<HRMSMainScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list_alt),
-            label: 'Patient Records',
+            label: 'Health Records',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_circle_outline),
