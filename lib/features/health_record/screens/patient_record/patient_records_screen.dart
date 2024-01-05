@@ -47,47 +47,49 @@ class _HRMSPatientRecordsScreenState extends State<HRMSPatientRecordsScreen> {
   Widget build(BuildContext context) {
     var zoneProvider = Provider.of<ZoneProvider>(context, listen: true);
 
-    return Scaffold(
-      // appBar: const PreferredSize(
-      //     preferredSize: Size.fromHeight(50),
-      //     child: HRMSAppBar(
-      //       title: 'Health Records',
-      //     )),
-      body: HRMSContentWrapper(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20.0),
-            Row(
-              children: [
-                Icon(
-                  Icons.list_alt_rounded,
-                  color: AppColors().mainColor(),
-                  size: 50.0,
-                ),
-                const SizedBox(
-                  width: 8.0,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Health Records',
-                      style: sectionHeader(),
-                    ),
-                    const Text('Explore and manage patient health records')
-                  ],
-                )
-              ],
-            ),
-            Column(
-              children: zoneProvider.zoneList.map((zone) {
-                return HRMSZoneCard(
-                  zoneInfo: zone,
-                );
-              }).toList(),
-            ),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        // appBar: const PreferredSize(
+        //     preferredSize: Size.fromHeight(50),
+        //     child: HRMSAppBar(
+        //       title: 'Health Records',
+        //     )),
+        body: HRMSContentWrapper(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20.0),
+              Row(
+                children: [
+                  Icon(
+                    Icons.list_alt_rounded,
+                    color: AppColors().mainColor(),
+                    size: 50.0,
+                  ),
+                  const SizedBox(
+                    width: 8.0,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Health Records',
+                        style: sectionHeader(),
+                      ),
+                      const Text('Explore and manage patient health records')
+                    ],
+                  )
+                ],
+              ),
+              Column(
+                children: zoneProvider.zoneList.map((zone) {
+                  return HRMSZoneCard(
+                    zoneInfo: zone,
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );

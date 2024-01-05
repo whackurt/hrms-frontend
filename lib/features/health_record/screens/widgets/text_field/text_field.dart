@@ -5,6 +5,7 @@ class HRMSTextField extends StatefulWidget {
   final String? hintText;
   final ValueChanged<String>? onChanged;
   final TextEditingController? controller;
+  final bool readOnly;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
 
@@ -15,7 +16,8 @@ class HRMSTextField extends StatefulWidget {
       this.label,
       this.hintText,
       this.controller,
-      this.validator});
+      this.validator,
+      this.readOnly = false});
 
   @override
   State<HRMSTextField> createState() => _HRMSTextFieldState();
@@ -42,6 +44,7 @@ class _HRMSTextFieldState extends State<HRMSTextField> {
         SizedBox(
           width: MediaQuery.of(context).size.width * .90,
           child: TextFormField(
+            readOnly: widget.readOnly,
             onChanged: widget.onChanged,
             controller: widget.controller,
             decoration: InputDecoration(
